@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear cuenta | Sirius</title>
+
+    <link rel="stylesheet" href="register.css">
+
+</head>
+<body>
+
+      <video autoplay muted loop id="bg-video">
+        <source src="video/fondoStars.mp4" type="video/mp4">
+        Tu navegador no soporta video HTML5.
+    </video>
+
+  <div class="container">
+    <h2>Crear una cuenta <span class="highlight">Sirius</span></h2>
+    <input type="text" id="username" placeholder="Elige un nombre de usuario...">
+    <input type="email" id="email" placeholder="Ingresa un correo electrónico...">
+    <input type="password" id="password" placeholder="Ingresa una contraseña...">
+    <p>¿Ya tienes una cuenta? <a href="login.html">Inicia sesión</a></p>
+    <button class="arrow-btn" type="button" onclick="registrar()">➜</button>
+  </div>
+
+  <script>
+    function registrar() {
+            let username = document.getElementById("username").value.trim();
+            let email = document.getElementById("email").value.trim();
+            let password = document.getElementById("password").value.trim();
+
+            if (!username || !email || !password) {
+                alert("Por favor, completa todos los campos.");
+                return;
+            }
+
+            let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+
+            // Comprobar si ya existe usuario o email
+            let existe = usuarios.some(u => u.username === username || u.email === email);
+
+            if (existe) {
+                alert("Ese nombre de usuario o correo ya está en uso. Inicia sesión o elige otro.");
+                return;
+            }
+
+            // Guardar nuevo usuario
+            usuarios.push({ username, email, password });
+            localStorage.setItem("usuarios", JSON.stringify(usuarios));
+
+            // Guardar sesión
+            localStorage.setItem("usuarioActivo", JSON.stringify({ username, email }));
+
+            // Ir a homepage
+            window.location.href = "./home.html";
+        }
+  </script>
+
+</body>
+</html>

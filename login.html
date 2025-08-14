@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar sesión | Sirius</title>
+    
+    <link rel="stylesheet" href="login.css">
+    
+</head>
+<body>
+
+    <video autoplay muted loop id="bg-video">
+        <source src="video/fondoStars.mp4" type="video/mp4">
+        Tu navegador no soporta video HTML5.
+    </video>
+
+    <div class="container">
+        <h2>Iniciar sesión</h2>
+        <input type="text" id="usuarioOemail" placeholder="Nombre de usuario o correo electrónico...">
+        <input type="password" id="password" placeholder="Ingresa tu contraseña...">
+        <p>¿No tienes una cuenta? <a href="register.html">Crea una ahora</a></p>
+        <button class="arrow-btn" type="button" onclick="iniciarSesion()">➜</button>
+    </div>
+
+    <script>
+        function iniciarSesion() {
+            let usuarioOemail = document.getElementById("usuarioOemail").value.trim();
+            let password = document.getElementById("password").value.trim();
+
+            if (!usuarioOemail || !password) {
+                alert("Por favor, completa todos los campos.");
+                return;
+            }
+
+            let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+
+            let usuario = usuarios.find(u => 
+                (u.username === usuarioOemail || u.email === usuarioOemail) && u.password === password
+            );
+
+            if (!usuario) {
+                alert("Usuario o contraseña incorrectos.");
+                return;
+            }
+
+            // Guardar sesión
+            localStorage.setItem("usuarioActivo", JSON.stringify(usuario));
+
+            // Ir a homepage
+            window.location.href = "./home.html";
+        }
+    </script>
+
+</body>
+</html>
